@@ -1,0 +1,87 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  UserCredentials:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        -
+          AttributeName: "ExtUserId"
+          AttributeType: "S"
+        -
+          AttributeName: "ExtTenantId"
+          AttributeType: "S"
+        -
+          AttributeName: "LMSToken"
+          AttributeType: "S"
+      KeySchema:
+        -
+          AttributeName: "ExtUserId"
+          KeyType: "HASH"
+      ProvisionedThroughput: 
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
+      TableName: "UserCredentials"
+    
+  TenantMapping:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        -
+          AttributeName: "ExtTenantId"
+          AttributeType: "S"
+        -
+          AttributeName: "IntTenantId"
+          AttributeType: "S"
+      KeySchema:
+        -
+          AttributeName: "ExtTenantId"
+          KeyType: "HASH"
+      ProvisionedThroughput: 
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
+      TableName: "TenantMapping"
+
+
+ VanityMapping:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        -
+          AttributeName: "TenantId"
+          AttributeType: "S"
+      -
+          AttributeName: "VanityName"
+          AttributeType: "S"
+     
+      KeySchema:
+        -
+          AttributeName: "TenantId"
+          KeyType: "HASH"
+      ProvisionedThroughput: 
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
+      TableName: "VanityMapping"
+
+  OAuthMapping:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        -
+          AttributeName: "TenantId"
+          AttributeType: "S"
+        -
+          AttributeName: "ClientId"
+          AttributeType: "S"
+        -
+          AttributeName: "ClientSecret"
+          AttributeType: "S"
+      KeySchema:
+        -
+          AttributeName: "TenantId"
+          KeyType: "HASH"
+      ProvisionedThroughput: 
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
+      TableName: "OAuthMapping"
